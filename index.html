@@ -332,8 +332,9 @@ tbody tr:nth-child(even):hover{background:var(--dh-green-faint);}
           <div class="chart-wrap"><canvas id="chartCategoryMini"></canvas></div>
         </div>
       </div>
-
-      <div class="insight-box" id="overviewInsight"></div>
+      
+      <div id="overviewInsight" class="insight-box"></div>
+      <div id="overviewDirection" class="insight-box"></div>
     </div>
 
     <!-- ===================== PAGE 2: PRODUCTS ===================== -->
@@ -400,6 +401,69 @@ tbody tr:nth-child(even):hover{background:var(--dh-green-faint);}
       </div>
     </div>
 
+    // Product Insight Box
+const topProduct = productArr[0];
+const highRating = productArr
+  .filter(p => p.rating >= 4.5)
+  .sort((a,b)=>b.sales-a.sales)[0];
+
+const opportunityProduct = productArr
+  .filter(p => p.sales > 0 && p.rating < 4.5)
+  .sort((a,b)=>b.sales-a.sales)[0];
+
+document.getElementById('productInsight').innerHTML = `
+  <div class="ib-title">💡 Product Insight</div>
+  <ul>
+    <li>
+      SKU dẫn đầu doanh số hiện tại là 
+      <b>${topProduct ? topProduct.name : '—'}</b>,
+      cho thấy đây là sản phẩm có sức kéo chính trong danh mục.
+    </li>
+
+    <li>
+      Nhóm sản phẩm có rating cao như 
+      <b>${highRating ? highRating.name : '—'}</b>
+      thể hiện mức độ hài lòng tốt và có tiềm năng được ưu tiên scale.
+    </li>
+
+    <li>
+      Sản phẩm 
+      <b>${opportunityProduct ? opportunityProduct.name : '—'}</b>
+      có doanh số tốt nhưng rating chưa tối ưu,
+      đây là nhóm cần cải thiện trải nghiệm hoặc tối ưu sản phẩm.
+    </li>
+  </ul>
+`;
+    <div id="productInsight" class="insight-box"></div>
+
+    document.getElementById('productDirection').innerHTML = `
+<div class="ib-title">🚀 Product Direction</div>
+
+<ul>
+<li>
+Dh Foods nên tập trung phát triển các SKU có doanh số cao
+để xây dựng nhóm sản phẩm chủ lực (hero products).
+</li>
+
+<li>
+Các SKU có rating tốt nhưng doanh số thấp nên được tăng đầu tư
+về marketing, hình ảnh sản phẩm và chương trình bán hàng.
+</li>
+
+<li>
+Các sản phẩm có doanh số tốt nhưng rating thấp cần ưu tiên tối ưu
+chất lượng, bao bì hoặc trải nghiệm khách hàng để tăng khả năng mua lại.
+</li>
+</ul>
+
+<div class="conclusion">
+<b>Kết luận:</b>
+Chiến lược sản phẩm nên tập trung vào tối ưu danh mục hiện tại,
+thay vì mở rộng quá nhiều SKU mới.
+</div>
+`;
+    <div id="productDirection" class="insight-box"></div>
+
     <!-- ===================== PAGE 3: PRICE & CATEGORY ===================== -->
     <div class="page" id="page-price">
 
@@ -443,8 +507,72 @@ tbody tr:nth-child(even):hover{background:var(--dh-green-faint);}
       </div>
 
       <div class="insight-box" id="priceInsight"></div>
+      <div class="insight-box" id="priceDirection"></div>
     </div>
+// ================= PRICE PAGE INSIGHT =================
 
+const topSegment = RAW.price_seg
+  .sort((a,b)=>b.pct-a.pct)[0];
+
+const topCategory = catArr[0];
+
+document.getElementById('priceInsight').innerHTML = `
+<div class="ib-title">💡 Price & Category Insight</div>
+
+<ul>
+<li>
+Phân khúc giá dẫn đầu:
+<b>${topSegment ? topSegment.phan_khuc : '—'}</b>,
+chiếm <b>${topSegment ? fmtPct(topSegment.pct) : '—'}</b> doanh số,
+cho thấy đây là mức giá phù hợp với hành vi mua online.
+</li>
+
+<li>
+Category có doanh thu cao nhất:
+<b>${topCategory ? topCategory[0] : '—'}</b>
+(${topCategory ? fmtVND(topCategory[1]) : '—'}),
+đang là nhóm sản phẩm cần ưu tiên khai thác.
+</li>
+
+<li>
+Các category có doanh số/SKU cao nhưng số lượng SKU thấp
+là nhóm có tiềm năng mở rộng danh mục.
+</li>
+
+</ul>
+`;
+
+
+// ================= PRICE PAGE DIRECTION =================
+
+document.getElementById('priceDirection').innerHTML = `
+<div class="ib-title">🚀 Business Direction</div>
+
+<ul>
+
+<li>
+Dh Foods nên tập trung phát triển sản phẩm ở phân khúc giá có
+tỷ trọng doanh thu cao để tối ưu khả năng tiếp cận khách hàng.
+</li>
+
+<li>
+Ưu tiên mở rộng các category có hiệu suất SKU tốt,
+thay vì mở rộng danh mục theo số lượng.
+</li>
+
+<li>
+Kết hợp chiến lược combo nhiều sản phẩm để tăng giá trị đơn hàng
+và thúc đẩy mua lại.
+</li>
+
+</ul>
+
+<div class="conclusion">
+<b>Kết luận:</b>
+Chiến lược danh mục nên tập trung vào nhóm sản phẩm có nhu cầu cao,
+mức giá phù hợp và khả năng scale tốt trên kênh online.
+</div>
+`;
     <!-- ===================== PAGE 4: WHITE SPACE ===================== -->
     <div class="page" id="page-whitespace">
 
@@ -500,9 +628,76 @@ tbody tr:nth-child(even):hover{background:var(--dh-green-faint);}
         </div>
       </div>
 
-      <div class="insight-box" id="wsInsight"></div>
+     <div class="insight-box" id="whiteInsight"></div>
+     <div class="insight-box" id="whiteDirection"></div>
     </div>
+// ================= WHITE SPACE INSIGHT =================
 
+const whiteSpaceProducts = productArr
+  .filter(p => p.ds > 0)
+  .sort((a,b)=>b.ds-a.ds);
+
+const opportunity = whiteSpaceProducts[0];
+
+
+document.getElementById('whiteInsight').innerHTML = `
+<div class="ib-title">💡 White Space Insight</div>
+
+<ul>
+
+<li>
+Có <b>${whiteSpaceProducts.length}</b> sản phẩm đang nằm trong nhóm cơ hội,
+với doanh số tốt nhưng mức độ cạnh tranh review chưa cao.
+</li>
+
+<li>
+Nhóm sản phẩm này đạt tổng doanh số:
+<b>${fmtVND(
+  whiteSpaceProducts.reduce((s,p)=>s+p.ds,0)
+)}</b>,
+cho thấy vẫn còn tiềm năng khai thác.
+</li>
+
+<li>
+SKU:
+<b>${opportunity ? opportunity.sp : '—'}</b>
+là đại diện nhóm sản phẩm có thể ưu tiên theo dõi.
+</li>
+
+</ul>
+`;
+
+
+// ================= WHITE SPACE DIRECTION =================
+
+document.getElementById('whiteDirection').innerHTML = `
+<div class="ib-title">🚀 Business Direction</div>
+
+<ul>
+
+<li>
+Dh Foods nên ưu tiên các sản phẩm có nhu cầu thị trường đã được chứng minh,
+giúp giảm rủi ro khi phát triển SKU mới.
+</li>
+
+<li>
+Tập trung cải thiện lợi thế cạnh tranh thông qua:
+hương vị khác biệt, bao bì, nội dung bán hàng và review khách hàng.
+</li>
+
+<li>
+Có thể thử nghiệm mở rộng bằng combo hoặc phiên bản mới
+trước khi đầu tư phát triển danh mục lớn.
+</li>
+
+</ul>
+
+<div class="conclusion">
+<b>Kết luận:</b>
+White Space giúp xác định nhóm sản phẩm có khả năng tăng trưởng,
+từ đó ưu tiên nguồn lực vào các cơ hội có xác suất thành công cao.
+</div>
+`;
     <div class="footer">
       <div>Nguồn: Metric &middot; Top 200 Gia Vị Shopee &middot; 365 ngày qua</div>
       <div>Phân tích bởi: Nguyễn Lan Anh &middot; Dh Foods Vietnam</div>
@@ -894,21 +1089,40 @@ function renderOverview(){
     }
   });
 
-  // Insight box
-  const topBrand = brandArr[0];
-  const dhRow = brandArr.find(b=>b[0]==='Dh Foods');
-  const topCat = catArr[0];
-  const cheapSeg = RAW.price_seg.find(p=>p.phan_khuc.includes('Rẻ'));
-  document.getElementById('overviewInsight').innerHTML = `
-    <div class="ib-title">💡 Insight nhanh</div>
-    <ul>
-      <li><b>${topBrand ? topBrand[0] : '—'}</b> đang dẫn đầu thị phần với doanh số ${topBrand?fmtVND(topBrand[1]):'—'} trong nhóm đang lọc.</li>
-      <li>Phân khúc <b>${cheapSeg?cheapSeg.phan_khuc:'—'}</b> chiếm ${cheapSeg?fmtPct(cheapSeg.pct):''} tổng doanh số toàn thị trường — đây là sweet spot giá cho gia vị online.</li>
-      <li>Category dẫn đầu trong bộ lọc hiện tại: <b>${topCat?topCat[0]:'—'}</b> (${topCat?fmtVND(topCat[1]):''}).</li>
-      ${dhRow ? `<li><b>Dh Foods</b> đang đứng ở vị trí thị phần với doanh số ${fmtVND(dhRow[1])} — so sánh với top đầu để định vị chiến lược nhập hàng.</li>` : `<li><b>Dh Foods</b> không xuất hiện trong nhóm đang lọc — có thể đây là khoảng trống thị trường cần xem xét.</li>`}
-    </ul>
-  `;
-}
+// Business Direction box
+document.getElementById('overviewDirection').innerHTML = `
+  <div class="ib-title">🚀 Business Direction</div>
+  <ul>
+    <li>
+      Thị trường đang tập trung vào các thương hiệu dẫn đầu, do đó <b>Dh Foods nên ưu tiên chiến lược khác biệt hóa</b> thay vì cạnh tranh trực tiếp về quy mô.
+    </li>
+    <li>
+      Phân khúc giá <b>${cheapSeg?cheapSeg.phan_khuc:'trung bình'}</b> đang tạo ra doanh thu lớn nhất, 
+      phù hợp để phát triển các sản phẩm có mức giá dễ tiếp cận và tăng khả năng mua lại.
+    </li>
+    <li>
+      Nhóm category dẫn đầu là <b>${topCat?topCat[0]:'—'}</b>, 
+      đây là nhóm nên được ưu tiên mở rộng SKU, combo sản phẩm và hoạt động marketing.
+    </li>
+    ${dhRow ? 
+    `<li>
+      Với vị trí <b>Top 4/20 thương hiệu</b>, Dh Foods nên tập trung củng cố các SKU chủ lực,
+      tăng độ phủ review và tối ưu listing để thu hẹp khoảng cách với nhóm dẫn đầu.
+    </li>` 
+    : 
+    `<li>
+      Dh Foods chưa xuất hiện trong nhóm đang lọc, cần đánh giá lại cơ hội thâm nhập thông qua category và phân khúc giá phù hợp.
+    </li>`
+    }
+  </ul>
+
+  <div class="conclusion">
+    <b>Kết luận:</b> 
+    Cơ hội tăng trưởng của Dh Foods nằm ở việc khai thác các phân khúc có nhu cầu cao,
+    tập trung vào sản phẩm chủ lực và xây dựng lợi thế cạnh tranh thông qua chất lượng,
+    sự khác biệt thương hiệu và trải nghiệm mua hàng online.
+  </div>
+`;
 
 // ============================================================
 // PAGE 2 — PRODUCT DEEP DIVE
