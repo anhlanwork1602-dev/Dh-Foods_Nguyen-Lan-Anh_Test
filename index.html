@@ -905,7 +905,7 @@ function renderOverview(){
       <li><b>${topBrand ? topBrand[0] : '—'}</b> đang dẫn đầu thị phần với doanh số ${topBrand?fmtVND(topBrand[1]):'—'} trong nhóm đang lọc.</li>
       <li>Phân khúc <b>${cheapSeg?cheapSeg.phan_khuc:'—'}</b> chiếm ${cheapSeg?fmtPct(cheapSeg.pct):''} tổng doanh số toàn thị trường — đây là sweet spot giá cho gia vị online.</li>
       <li>Category dẫn đầu trong bộ lọc hiện tại: <b>${topCat?topCat[0]:'—'}</b> (${topCat?fmtVND(topCat[1]):''}).</li>
-      ${dhRow ? `<li><b>Dh Foods</b> đang đứng ở vị trí thị phần với doanh số ${fmtVND(dhRow[1])} — so sánh với top đầu để định vị chiến lược nhập hàng.</li>` : `<li><b>Dh Foods</b> không xuất hiện trong nhóm đang lọc — có thể đây là khoảng trống thị trường cần xem xét.</li>`}
+      ${dhRow ? `<li><b>Dh Foods</b> có thị phần hạng 3/20 với doanh số ${fmtVND(dhRow[1])} — so sánh với top đầu để định vị chiến lược nhập hàng.</li>` : `<li><b>Dh Foods</b> không xuất hiện trong nhóm đang lọc — có thể đây là khoảng trống thị trường cần xem xét.</li>`}
     </ul>
   `;
 }
